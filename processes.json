@@ -1,0 +1,23 @@
+{
+    "apps": [{
+        "name"        : "hub",
+        "script"      : "app.js",
+        //"args"        : ["--toto=heya coco", "-d", "1"],
+        "watch"       : ['app.js', 'koa.js', 'service', 'routes', 'controllers', 'config', 'views'],
+        //"watch"       : true,
+        //"ignore_watch" : ["node_modules", "public", "bin"],
+        //"node_args"   : "--harmony",
+        //"merge_logs"  : true,
+        "log_date_format" : "YYYY-MM-DD HH:mm Z",
+        "cwd"         : "/home/worker/hub.go2yd.com/htdocs",
+        //"exec_mode"   : "cluster",
+        //"instances"   : 0,
+        "error_file"  : "/home/worker/hub.go2yd.com/logs/hub.err.log",
+        "out_file"  : "/home/worker/hub.go2yd.com/logs/hub.out.log",
+        "max_memory_restart": "1G",
+        "env": {
+            "NODE_ENV": "production",
+            "PORT": "3041"
+        }
+    }]
+}

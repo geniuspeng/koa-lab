@@ -1,0 +1,38 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1")
+    title 一点资讯 - 应用
+  body
+    script(src="http://static.yidianzixun.com/modules/common/zepto.min.js")
+    script.
+      (function() {
+        var is_debug = location.href.indexOf('debug=1') >= 0;  
+        window.YidianAppBaseInfo = function(data) {
+          if (data && data.utk) {
+            getRes(data.utk);
+          }
+        };
+        if (is_debug) {
+          getRes('0i76n813');
+        }
+        //加密
+        function getRes(utk) {
+          $.ajax({
+            url:'/app/chunyu/token?str=' + (utk), 
+            dataType:'json', 
+            timeout: 200, 
+            success: function(data) {
+              var token = encodeURIComponent(data.result);
+              var time = data.time;
+              var testUrl = 'http://test.chunyu.me/';
+              var url = 'http://www.chunyuyisheng.com/';
+              if (is_debug) {
+                url = testUrl;
+              }
+              location.href = url + "cooperation/wap/login/?user_id=" + utk + "&atime=" + time + "&partner=yidianzixun&sign=" + token;
+            }
+          });
+        }
+      })();
