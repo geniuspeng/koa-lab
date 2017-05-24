@@ -1,7 +1,7 @@
 <template lang="html">
-  <div>23232dddfddd
+  <div>appppp
     <input type="text">
-    <span>dddd</span>
+    <span>1231232</span>
   </div>
 </template>
 
@@ -10,9 +10,14 @@
     props: [],
     data() {
       return {
-        name: '312d'
+        name: '312ddd'
       };
     }
    
   };
 </script>
+
+<style lang="stylus">
+  span
+    background #ff0000
+</style>

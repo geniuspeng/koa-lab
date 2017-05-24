@@ -11,22 +11,25 @@ let path = require('path'),
     srcPath = path.resolve(__dirname + '/public/static/home');
     
 module.exports = {
+  // 如需使用后端服务器，则使用此配置
+  // entry: [  // 热加载配置
+  //     'webpack-dev-server/client?http://0.0.0.0:9999',
+  //     'webpack/hot/only-dev-server',
+  //     srcPath + '/index.js'
+  // ],
   entry: {
-    app: [  // 热加载配置
-        'webpack-dev-server/client?http://127.0.0.1:9999',
-        'webpack/hot/only-dev-server',
-        srcPath + '/index.js'
-    ],
-    // 'index': srcPath + '/index.js'
+    'app': srcPath + '/app.js'
     // 'login': [srcPath + '/login.js', srcPath + '/login.css'],
     // 'detail': [srcPath + '/detail.js', srcPath + '/detail.styl']
   },
 
   output: {
     path: __dirname + '/public/static/home/build',
-    publicPath: '/',
+    publicPath:  'http://' + devServerHost + ':' + devServerPort + '/',
     filename: '[name].js'
   },
+
+  devtool: '#eval-source-map',
 
   resolve: {
     extensions: ['.js', '.vue', '.css', '.scss', 'styl', '*'],
@@ -115,17 +118,12 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     noInfo: true,
-    inline: true,
-    publicPath: '/',
     host: devServerHost,
-    port: devServerPort
-    // proxy: {
-    //   '*': {
-    //      target: 'http://127.0.0.1:9999',
-    //      changeOrigin: true,
-    //      secure: false
-    //    }
-    // }
+    port: devServerPort,
+    headers: {
+      "Access-Control-Allow-Origin": "*"
+      // "Access-Control-Allow-Credentials": true
+    },
   },
 
   plugins: [
@@ -135,7 +133,7 @@ module.exports = {
       Vue: 'vue'
       // d3: 'd3'
     }),
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin()
     // 把公用文件单独打包
     new webpack.optimize.CommonsChunkPlugin({
       name: 'common',

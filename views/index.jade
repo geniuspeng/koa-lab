@@ -6,17 +6,14 @@ html
     meta(name="description", content="一点资讯是一款高度智能的新闻资讯应用，通过它你可以搜索并订阅任意关键词，它会自动帮你聚合整理并实时更新相关资讯，同时会智能分析你的兴趣爱好，为你推荐感兴趣的内容。看新闻资讯，一点就够了！")
     meta(name="viewport", content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, minimal-ui")
     meta(name="format-detection", content="telephone=no")
-    link(rel="stylesheet", href="/static/common/bootstrap/css/bootstrap.min.css", type="text/css")
     //- link(rel="stylesheet", href="http://127.0.0.1:9090/main.css", type="text/css")
     title 一点资讯
   body
     h1 Hello World! #{users.join()}
     #main
+      router-view
       
 
-
-    script(src="/static/common/jquery-2.1.4.min.js")
-    script(src="/static/common/bootstrap/js/bootstrap.min.js")
     script(src="http://127.0.0.1:9999/common.js")
     script(src="http://127.0.0.1:9999/app.js")
 
