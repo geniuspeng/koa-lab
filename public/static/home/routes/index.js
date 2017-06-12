@@ -1,7 +1,7 @@
 import App from '../app.vue';
 import Index from '../components/Index';
 import Nest from '../components/Nest';
-import Test from '../components/Test';
+import Comets from '../components/Comets';
 // import Blog from '../pages/blog';
 // import Content from '../pages/content';
 // import About from '../pages/about';
@@ -23,8 +23,8 @@ export default [
         component: Nest
       },
       {
-        path: 'test',
-        component: Test
+        path: 'comets',
+        component: Comets
       }
       // {
       //   path: '/signout',

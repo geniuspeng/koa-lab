@@ -2,7 +2,6 @@
   <div>
     <input type="text" v-model="name">
     <span>{{name}}</span>
-    <router-link to="/nest">/nest</router-link>
   </div>
 </template>
 

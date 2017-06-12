@@ -1,7 +1,9 @@
 // even more awesome with this song playing ;)
 // https://www.youtube.com/watch?v=0NKUpo_xKyQ
 // ( lights )
-
+var c = document.createElement('canvas');
+document.body.appendChild(c);
+// var c = document.querySelector('#c');
 var w = c.width = window.innerWidth,
     h = c.height = window.innerHeight,
     ctx = c.getContext( '2d' ),
