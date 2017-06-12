@@ -42,10 +42,6 @@ module.exports = {
     }
   },
 
-  // resolveLoader: {
-  //   root: [node_modules]
-  // },
-
   module: {
     rules: [
       {

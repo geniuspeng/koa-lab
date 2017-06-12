@@ -1,7 +1,6 @@
 <template lang="html">
-  <div>appppp
-    <input type="text">
-    <span>1231232</span>
+  <div>
+    <router-view></router-view>
   </div>
 </template>
 

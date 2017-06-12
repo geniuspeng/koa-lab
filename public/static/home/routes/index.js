@@ -1,12 +1,11 @@
 import App from '../app.vue';
 import Index from '../components/Index';
-// import Login from '../pages/login';
-// import Signout from '../pages/signout';
+import Nest from '../components/Nest';
+import Test from '../components/Test';
 // import Blog from '../pages/blog';
 // import Content from '../pages/content';
 // import About from '../pages/about';
 // import Sidebar from '../components/Sidebar';
-console.log(App)
 
 export default [
   {
@@ -14,14 +13,19 @@ export default [
     component: App,
     children: [
       {
-        path: '/',
+        path: '',
         name: 'home',
         component: Index
+      },
+      {
+        path: 'nest',
+        name: 'nest',
+        component: Nest
+      },
+      {
+        path: 'test',
+        component: Test
       }
-      // {
-      //   path: '/login',
-      //   component: Login,
-      // },
       // {
       //   path: '/signout',
       //   component: Signout,

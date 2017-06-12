@@ -1,6 +1,5 @@
 //首页js
 import 'main.styl';
-import Vue from 'vue';
 import VueRouter from 'vue-router';
 import routes from './routes';
 import store from './store';
@@ -12,7 +11,7 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({
   routes,
-  mode: 'history',
+  // mode: 'history',
 });
 router.beforeEach((to, from, next) => {
   let path = to.path;
