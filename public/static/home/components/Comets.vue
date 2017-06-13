@@ -16,6 +16,7 @@
     },
     mounted () {
       var c = document.querySelector('#c');
+      init();
     }
    
   };

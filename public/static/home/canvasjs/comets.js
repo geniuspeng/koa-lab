@@ -59,7 +59,7 @@ function init() {
   
   loop();
 }
-
+window.init = init;
 function loop() {
   
   window.requestAnimationFrame( loop );
@@ -260,7 +260,7 @@ Hole.prototype.render = function() {
   ctx.fill();
 }
 
-init();
+// init();
 
 window.addEventListener( 'resize', function() {
   
