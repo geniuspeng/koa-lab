@@ -1,6 +1,12 @@
 class Util {
   Constructor() {
     console.log('HI~Util');
+    this.init();
+  }
+
+  init () {
+    //更新页面用requestAnimationFrame替代setTimeout
+    window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
   }
 
   formatDate (date, fmt = "yyyy-MM-dd") {

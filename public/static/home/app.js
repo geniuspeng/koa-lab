@@ -1,13 +1,12 @@
 //首页js
 import 'main.styl';
+import Util from './util.js';
 import VueRouter from 'vue-router';
 import routes from './routes';
 import store from './store';
 // import Header from './components/Header'
 
 Vue.use(VueRouter);
-
-// Vue.component('common-header', Header);
 
 const router = new VueRouter({
   routes,

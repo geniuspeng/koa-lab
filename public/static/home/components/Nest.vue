@@ -15,8 +15,6 @@
       };
     },
     mounted() {
-      //更新页面用requestAnimationFrame替代setTimeout
-      window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
       let canvas = document.querySelector('canvas');
       let ctx = canvas.getContext('2d');
