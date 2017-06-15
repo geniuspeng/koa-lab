@@ -5,8 +5,8 @@
 </template>
 
 <script lang="babel">
-
-  import '../canvasjs/comets.js';
+  import * as Canvas from '../canvasjs';
+  console.log(Canvas)
   export default {
     props: [],
     data () {
@@ -16,7 +16,7 @@
     },
     mounted () {
       var c = document.querySelector('#c');
-      init();
+      Canvas.comets()
     }
    
   };

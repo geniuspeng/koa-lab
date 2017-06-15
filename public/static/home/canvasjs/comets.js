@@ -59,7 +59,7 @@ function init() {
   
   loop();
 }
-window.init = init;
+
 function loop() {
   
   window.requestAnimationFrame( loop );
@@ -273,3 +273,5 @@ window.addEventListener( 'resize', function() {
   ctx.globalCompositeOperation = 'destination-out';
   ctx.save();
 })
+
+export var comets = init;
