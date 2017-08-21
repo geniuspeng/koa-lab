@@ -20,7 +20,9 @@
     "koa-router": "^7.0.1",
     "koa-send": "^3.2.0",
     "koa-views": "^5.0.2",
-    "mongodb": "^2.2.24"
+    "mongodb": "^2.2.30",
+    "pug": "^2.0.0-rc.2",
+    "say": "^0.11.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.0.0",
@@ -46,12 +48,12 @@
     "vue-hot-reload-api": "^1.2.2",
     "vue-html-loader": "^1.2.3",
     "vue-loader": "^12.1.0",
-    "vue-router": "^2.0.1",
+    "vue-router": "^2.7.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.3.3",
     "vuex": "^2.0.0",
     "webpack": "^2.6.0",
-    "webpack-dev-server": "^2.4.5"
+    "webpack-dev-server": "^2.5.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

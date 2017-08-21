@@ -22,7 +22,7 @@ app.use(views(`${__dirname}/views`, {
 
 app.use(bodyParser());
 app.use(send());
-app.use(json());
+// app.use(json());
 
 //设置gzip
 app.use(compress({

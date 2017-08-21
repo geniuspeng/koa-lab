@@ -4,9 +4,11 @@ import Util from './util.js';
 import VueRouter from 'vue-router';
 import routes from './routes';
 import store from './store';
+import canvasTools from '../canvastools';
 // import Header from './components/Header'
 
 Vue.use(VueRouter);
+Vue.use(canvasTools);
 
 const router = new VueRouter({
   routes,
@@ -20,7 +22,7 @@ router.beforeEach((to, from, next) => {
   //     return next({ path: '/login' })
   // }
   next()
-})
+});
 
 let a = 111;
 console.log(a);

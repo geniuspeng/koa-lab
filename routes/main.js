@@ -9,6 +9,7 @@ import * as Api from '../controllers/api';
 const router = new Router({});
 
 router.get('/', Main.index);
+router.get('/test', Main.test);
 
 //公共API
 router.post('/api/login', Api.login);

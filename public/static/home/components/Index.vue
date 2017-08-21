@@ -2,6 +2,7 @@
   <div>
     <input type="text" v-model="name">
     <span>{{name}}</span>
+    <light-loader></light-loader>
   </div>
 </template>
 
