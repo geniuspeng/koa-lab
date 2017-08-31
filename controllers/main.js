@@ -48,4 +48,8 @@ export const test = async (ctx, next) => {
   //   }
   // });
   // await ctx.render('test.html');
+};
+
+export const pwa = async (ctx, next) => {
+  await ctx.render('pwa/index.html');
 }
