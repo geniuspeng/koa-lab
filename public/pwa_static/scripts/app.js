@@ -193,6 +193,7 @@
       if (request.readyState === XMLHttpRequest.DONE) {
         if (request.status === 200) {
           var response = JSON.parse(request.response);
+          // console.log(response)
           var results = response.query.results;
           results.key = key;
           results.label = label;

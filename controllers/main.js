@@ -1,23 +1,12 @@
 import { getUsers } from '../service/user';
-import say from 'say';
 import Aip from '../baidu-ai';
 import fs from 'fs';
+import { http_req } from './util';
 
 export const index = async (ctx, next) => {
   let data  = {
     users:getUsers()
   };
-  let text = '虽然今天事情很多，很忙，可你常常还是会回忆从前，好的不好的对你来说都是异样的滋味。可工作归工作，还是要把正事先做好，要不然还是会出现许多麻烦呢！晚上的时候可以出去逛逛，舒缓一下心情。'
-  say.speak(text);
-  // Fire a callback once the text has completed being spoken
-  say.speak('whats up, dog?', 'Good News', 1.0, function(err) {
-    if (err) {
-      return console.error(err);
-    }
-
-    console.log('Text has been spoken.');
-  });
-  console.log(111)
   console.log(data);
   await ctx.render('index.jade', data);
 };
@@ -52,4 +41,13 @@ export const test = async (ctx, next) => {
 
 export const pwa = async (ctx, next) => {
   await ctx.render('pwa/index.html');
+};
+
+export const almanac = async (ctx, next) => {
+  let now = new Date();
+  let title = now.getFullYear() + '年' + (((now.getMonth() + 1) < 10 ? ('0' + (now.getMonth() + 1)) : (now.getMonth() + 1)))+ '月' + (now.getDate() < 10 ? ('0' + now.getDate()) : now.getDate()) + '日';
+  await ctx.render('pwa/almanac.jade', {
+    is_dev: process.env.NODE_ENV === 'development',
+    title: title
+  });
 }

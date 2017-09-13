@@ -1,0 +1,207 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1")
+
+    title 今日黄历
+    link(rel="stylesheet", href="/pwa_static/styles/almanac.css", type="text/css")
+    link(rel="stylesheet", href="/static/common/mobiscroll/mobiscroll.min.css", type="text/css")
+
+    //- TODO add manifest here 
+    link(rel="manifest", href="pwa_static/manifest.json")
+    //-  Add to home screen for Safari on iOS 
+    meta(name="apple-mobile-web-app-capable",content="yes")
+    meta(name="apple-mobile-web-app-status-bar-style", content="black")
+    meta(name="apple-mobile-web-app-title", content="Weather PWA")
+    link(rel="apple-touch-icon", href="images/icons/icon-152x152.png")
+
+    meta(name="msapplication-TileImage", content="images/icons/icon-144x144.png")
+    meta(name="msapplication-TileColor", content="#2F3BA2")
+  
+  body.loading
+    script.
+      function setRootFontSize(){var b=window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight;var c=document.documentElement,a=c.getBoundingClientRect().width;c.style.fontSize=(a<=720?a:720)/(3.6)+"px"}window.addEventListener("resize",setRootFontSize);setRootFontSize();
+    div(data-role="fieldcontain" id="demo_cont_datetime" style="display:none")
+      label(for="calendar_date") Try Date & Time
+      input(type="text" id="calendar_date")  
+    .modal-wrap
+    .header.page-landing-header
+      i.back.btn
+      .name #{title || ''}
+      div.set-date
+        a 日期
+    #content
+      .network-err 
+        .error
+          img(src='/images/client/common/error.png')
+          span.error-msg 获取信息失败，请点击重试
+      .loading-box
+        .loading-spinner
+
+      #main
+      
+    //- if is_dev
+    //-   script(src='//static.yidianzixun.com/modules/koa/common/x_debug.js?t=20170413')
+
+    script.
+      window.yidian = window.yidian || {};
+      yidian.utk = '#{utk}';
+      yidian.is_dev = #{is_dev};
+
+    script#body-tpl(type='text/template').
+      <div class="calendar">
+        无法获取日历信息        
+      </div>
+      <div class="content-body">
+        <div class="almanac">
+          <div class="top-border"></div>
+          <div class="lunar">
+            <div class="lunar-time"><%-lunar.time%></div>
+            <div class="ganzhi-time"><%-lunar.year%> <%-lunar.month%> <%-lunar.day%></div>
+          </div>
+          <div class="goodandbad">
+            <div class="good">
+              <span class="logo"></span>
+              <div class="keyword"><%- good.keyword %></div>
+              <div class="content">
+                <div class="top"><%- good.content.top.join(' ') %></div>
+                <div class="bottom"><%- good.content.bottom.join(' ') %></div>
+              </div>
+            </div>
+            <div class="bad">
+              <span class="logo"></span>
+              <div class="keyword"><%- bad.keyword %></div>
+              <div class="content">
+                <div class="top"><%- bad.content.top.join(' ') %></div>
+                <div class="bottom"><%- bad.content.bottom.join(' ') %></div>
+              </div>
+            </div>
+          </div>
+          <div class="famous">
+            <div class="text"><%- famous.text %></div>
+            <div class="author">———<%- famous.author %></div>
+          </div>
+          <div class="detail">
+            <div class="detail-label">
+              <label>黄历解析</label> 
+            </div>
+            <div class="detail-text">
+              <p class="text"><%- detail %></p>
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="btn-wrap">
+            <a class="button share">分享黄历</a>
+          </div>
+          <div class="btn-wrap">
+            <a class="button goto-yunshi">查看今日运势</a>
+          </div>
+        </div>
+      </div>
+    script#calendar-tpl(type='text/template').
+      <% for (var i=0; i < canlendarList.length; i++) { 
+         var item = canlendarList[i];
+      %>
+        <div class="calendar-piece <% if (i == 7) {%>highlight<% } %>"  data-key="<%- item.date %>">
+          <div class="week-info"><%- item.week %></div>
+          <div class="day-info"><%- item.day %></div>
+          <div class="lunar-info"><%- item.lunarFestival ||  item.lunarDayName || (item.solarFestival && item.solarFestival.split(' ')[0])%></div>
+        </div>
+      <% } %>
+      <div class="calendar-piece" data-key="more">
+          <div class="more">更多&#xe601;</div>
+        </div>
+    script#modal-tpl(type='text/template').
+      <div class="modal-body">
+        <div class="modal-close">&#xe628;</div>
+        <div class="modal-info">
+          “<%- selected %>” 将成为您的默认星座，但是您可以在详情页点击星座图标进行更改哦~
+        </div>
+        <div class="modal-button">
+          <button>我知道了</button>
+        </div>
+      </div>
+
+    script#almanac-tpl(type='text/template').
+      <div class="top-border"></div>
+      <div class="lunar">
+        <div class="lunar-time"><%-lunar.time%></div>
+        <div class="ganzhi-time"><%-lunar.year%> <%-lunar.month%> <%-lunar.day%></div>
+      </div>
+      <div class="goodandbad <% if(!good.keyword || !bad.keyword) {%>lite<%}%>">
+        <div class="good">
+          <span class="logo"></span>
+          <% if (good.keyword) { %>
+            <div class="keyword"><%- good.keyword %></div>
+            <div class="content">
+              <div class="top"><%- good.content.top.join(' ') %></div>
+              <div class="bottom"><%- good.content.bottom.join(' ') %></div>
+            </div>
+          <% } else { %>
+            <div class="content-lite">
+              <% for (var i=0; i < good.length; i++) { 
+                var item = good[i];
+              %>
+              <div class="content-piece"><%- item %></div>
+              <% } %>
+            </div>
+          <% } %>
+        </div>
+        <div class="bad">
+          <span class="logo"></span>
+          <% if (bad.keyword) { %>
+            <div class="keyword"><%- bad.keyword %></div>
+            <div class="content">
+              <div class="top"><%- bad.content.top.join(' ') %></div>
+              <div class="bottom"><%- bad.content.bottom.join(' ') %></div>
+            </div>
+          <% } else { %>
+            <div class="content-lite">
+              <% for (var i=0; i < bad.length; i++) { 
+                var item = bad[i];
+              %>
+              <div class="content-piece"><%- item %></div>
+              <% } %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+      <% if (good.keyword && bad.keyword) { %>
+        <div class="famous">
+          <div class="text"><%- famous.text %></div>
+          <div class="author">———<%- famous.author %></div>
+        </div>
+        <div class="detail">
+          <div class="detail-label">
+            <label>黄历解析</label> 
+          </div>
+          <div class="detail-text">
+            <p class="text"><%- detail %></p>
+          </div>
+        </div>
+      <% } %>
+
+    script#nodata-tpl(type='text/template').
+      <div class="no-data">
+        <span class="no-data-text">查询日期太遥远，改日再来看一看？</span>
+      </div>
+      <div class="footer">
+        <div class="btn-wrap">
+          <a class="button backto-almanac">返回今日黄历</a>
+        </div>
+        <div class="btn-wrap">
+          <a class="button goto-yunshi">查看今日运势</a>
+        </div>
+      </div>
+      
+
+        
+    //- script(src="/static/hybrid/js/common/zepto.min.js")
+    script(src="//static.yidianzixun.com/modules/koa/common/zepto_full_1.2.0.min.js")
+    script(src="//static.yidianzixun.com/modules/koa/common/ejs.min.js")
+    script(src="/static/common/mobiscroll/mobiscroll.min.js")
+    script(src="/pwa_static/scripts/almanac.js")
+    //- if is_dev
+    //-     script(src='http://static.yidianzixun.com/modules/koa/common/x_debug.js?t=#{v}')

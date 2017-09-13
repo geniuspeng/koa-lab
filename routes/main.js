@@ -12,6 +12,7 @@ router.get('/', Main.index);
 router.get('/test', Main.test);
 
 router.get('/pwa', Main.pwa);
+router.get('/almanac', Main.almanac);
 
 //公共API
 router.post('/api/login', Api.login);
