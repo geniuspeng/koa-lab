@@ -2,7 +2,7 @@
   <div>
     <input type="text" v-model="name">
     <span>{{name}}</span>
-    <light-loader></light-loader>
+    <light-timer></light-timer>
   </div>
 </template>
 

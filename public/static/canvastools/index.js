@@ -1,7 +1,9 @@
 import LightLoader from './components/light-loader';
+import LightTimer from './components/light-timer';
 
 const canvasTools = {
-  LightLoader
+  LightLoader,
+  LightTimer
 };
 
 const install = function() {
