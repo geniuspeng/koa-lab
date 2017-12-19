@@ -9222,15 +9222,15 @@ IOWA.CountdownTimer.Core.prototype.setQuality = function(t) {
 }
 ,
 IOWA.CountdownTimer.Core.prototype.createBands = function() {
-    for (var t = 8, e = [], i = {
+    for (var t = 6, e = [], i = {
         digit_0: Math.floor(this.lastNumbers.column1 / 10),
         digit_1: this.lastNumbers.column1 % 10,
         digit_2: Math.floor(this.lastNumbers.column2 / 10),
         digit_3: this.lastNumbers.column2 % 10,
         digit_4: Math.floor(this.lastNumbers.column3 / 10),
         digit_5: this.lastNumbers.column3 % 10,
-        digit_6: this.lastNumbers.column4 ? Math.floor(this.lastNumbers.column4 / 10) : "android",
-        digit_7: this.lastNumbers.column4 ? this.lastNumbers.column4 % 10 : "infinity"
+        // digit_6: this.lastNumbers.column4 ? Math.floor(this.lastNumbers.column4 / 10) : "android",
+        // digit_7: this.lastNumbers.column4 ? this.lastNumbers.column4 % 10 : "infinity"
     }, n = 0; n < t; n++) {
         var r = i["digit_" + n];
         r < 0 && (r = 0),
@@ -9299,7 +9299,7 @@ IOWA.CountdownTimer.Core.prototype.addSeparators = function() {
 IOWA.CountdownTimer.Core.prototype.getSeparators = function() {
     this.commaSeparators = [],
     this.colonSeparators = [];
-    for (var t = 1; t <= 3; t++) {
+    for (var t = 1; t <= 2; t++) {
         var e = this.bands[2 * t].center.x - this.layout.radius - (this.bandPadding + this.bandGutter) / 2
           , i = this.bands[2 * t].center.y + this.layout.radius - this.bandGutter / 1.6;
         this.commaSeparators.push({
@@ -9330,15 +9330,15 @@ IOWA.CountdownTimer.Core.prototype.getSeparators = function() {
 IOWA.CountdownTimer.Core.prototype.getDigits = function() {
     for (var t = 0; t < 10; t++)
         this.digits[t] = this.getPath("path-" + t);
-    for (var e = 0; e < IOWA.CountdownTimer.ICON_SHAPES.length; e++) {
-        for (var i = IOWA.CountdownTimer.ICON_SHAPES[e], n = IOWA.CountdownTimer.ICON_PATHS["icon_" + i].length / this.quality, r = [], s = 0; s < this.quality; s++) {
-            var o = Math.floor(s * n);
-            r.push(IOWA.CountdownTimer.ICON_PATHS["icon_" + i][o])
-        }
-        this.digits[i] = {
-            points: r
-        }
-    }
+    // for (var e = 0; e < IOWA.CountdownTimer.ICON_SHAPES.length; e++) {
+    //     for (var i = IOWA.CountdownTimer.ICON_SHAPES[e], n = IOWA.CountdownTimer.ICON_PATHS["icon_" + i].length / this.quality, r = [], s = 0; s < this.quality; s++) {
+    //         var o = Math.floor(s * n);
+    //         r.push(IOWA.CountdownTimer.ICON_PATHS["icon_" + i][o])
+    //     }
+    //     this.digits[i] = {
+    //         points: r
+    //     }
+    // }
 }
 ,
 IOWA.CountdownTimer.Core.prototype.getPath = function(t) {
