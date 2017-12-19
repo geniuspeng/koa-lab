@@ -384,12 +384,16 @@ function updateAlmanac(data) {
 }
 
 /*****************注册service worker*****************/
+const sendMessageToSW = (msg) => {
+  return navigator.serviceWorker.controller && navigator.serviceWorker.controller.postMessage(msg);
+} 
 function registSw() {
   // TODO add service worker code here
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker
              .register('/service-worker.js')
-             .then(function() { console.log('Service Worker Registered'); });
+             .then(() => { console.log('Service Worker Registered'); })
+             .then(() => sendMessageToSW('hello sw!'));
   }
 }
 
@@ -439,10 +443,25 @@ function addEventHandlers() {
   });
   //点击查看今日运势
   $('body').on('tap', '.goto-yunshi', function(e) {
-    Common.sendLog({action_method: 'CLICK_WIDGET', action_source: {page: 'PageWapYellowCalendar'}, entity: {action_id: 'TodaysFortune'}});
-    var url = location.origin + '/client/horoscope?utk=' + Common.user.utk;
-    window.location.href = url;
+    // Common.sendLog({action_method: 'CLICK_WIDGET', action_source: {page: 'PageWapYellowCalendar'}, entity: {action_id: 'TodaysFortune'}});
+    // var url = location.origin + '/client/horoscope?utk=' + Common.user.utk;
+    // window.location.href = url;
     // Util.openUrl(url);
+    new Promise(function(resolve, reject) {
+      Notification.requestPermission(function(result) {
+        if (result !== 'granted') return reject(Error("Denied notification permission"));
+        resolve();
+      })
+    }).then(function() {
+      return navigator.serviceWorker.ready;
+    }).then(function(reg) {
+      return reg.sync.register('syncTest');
+    }).then(function() {
+      console.log('Sync registered');
+    }).catch(function(err) {
+      console.log('It broke');
+      console.log(err.message);
+    });
   });
 
 
@@ -461,10 +480,25 @@ function addEventHandlers() {
   });
 
 
-
   $('.header').on('tap', '.back', function(e) {
     if (Common.isAndroidClient && container.closeWebviewWindow) {
       container.closeWebviewWindow();
     }
   });
+  window.addEventListener('offline', function(e) {
+    console.log('离线了')
+    Notification.requestPermission().then((grant) => {
+      if (grant !== 'granted') return;
+      const notification = new Notification("网络挂掉了哦~", {
+        body: '虽然离线了，但是我还可以访问',
+        icon: 'http://si1.go2yd.com/get-image/0Gp8bLbHOkK'
+      });
+
+    })
+  });
+  window.addEventListener('message', function(e) {
+    console.log('from sw')
+    console.log(e)
+  });
+
 }

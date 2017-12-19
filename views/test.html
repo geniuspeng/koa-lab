@@ -15,49 +15,221 @@
 <body>
     <canvas id='application'></canvas>
     <script>
-        // create a PlayCanvas application
-        var canvas = document.getElementById('application');
-        var app = new pc.Application(canvas, { });
-        app.start();
+        // const PENDING = 0
+        // const FULFILLED = 1
+        // const REJECTED = 2
+        // function Promise (fn) {
+        //   // 存储该 Promise 的状态信息
+        //   let state = PENDING
+        //   // 存储 FULFILLED 或 REJECTED 时带来的数据
+        //   let value = null
+        //   // 存储 then 或 done 时调用的成功或失败回调
+        //   let handlers = []
+          
+        //   function fulfill (result) {
+        //     state = FULFILLED
+        //     handlers.forEach(handle)
+        //     handlers = null
+        //   }
+        //   function reject (error) {
+        //     state = REJECTED
+        //     value = error
+        //     handlers.forEach(handle)
+        //     handlers = null
+        //   }
+        //   function resolve (result) {
+        //     try {
+        //       let then = getThen(result)
+        //       if (then) {
+        //         // 递归 resolve 待解析的 Promise
+        //         doResolve(then.bind(result), resolve, reject)
+        //         return
+        //       }
+        //       fulfill(result)
+        //     } catch (e) {
+        //       reject(e)
+        //     }
+        //   }
+          
+        //   // 保证 done 中回调的执行
+        //   function handle (handler) {
+        //     if (state === PENDING) {
+        //       handlers.push(handler)
+        //     } else {
+        //       if (state === FULFILLED &&
+        //         typeof handler.onFulfilled === 'function') {
+        //         handler.onFulfilled(value)
+        //       }
+        //       if (state === REJECTED &&
+        //         typeof handler.onRejected === 'function') {
+        //         handler.onRejected(value)
+        //       }
+        //     }
+        //   }
 
-        // fill the available space at full resolution
-        app.setCanvasFillMode(pc.FILLMODE_FILL_WINDOW);
-        app.setCanvasResolution(pc.RESOLUTION_AUTO);
+        //   /**
+        //    * 检查一个值是否为 Promise
+        //    * 若为 Promise 则返回该 Promise 的 then 方法
+        //    *
+        //    * @param {Promise|Any} value
+        //    * @return {Function|Null}
+        //    */
+        //   function getThen (value) {
+        //     let t = typeof value
+        //     if (value && (t === 'object' || t === 'function')) {
+        //       const then = value.then
+        //       // 可能需要更复杂的 thenable 判断
+        //       if (typeof then === 'function') return then
+        //     }
+        //     return null
+        //   }
+        //   /**
+        //    * 传入一个需被 resolve 的函数，该函数可能存在不确定行为
+        //    * 确保 onFulfilled 与 onRejected 只会被调用一次
+        //    * 在此不保证该函数一定会被异步执行
+        //    *
+        //    * @param {Function} fn 不能信任的回调函数
+        //    * @param {Function} onFulfilled
+        //    * @param {Function} onRejected
+        //    */
+        //   function doResolve (fn, onFulfilled, onRejected) {
+        //     let done = false
+        //     try {
+        //       fn(function (value) {
+        //         if (done) return
+        //         done = true
+        //         // 执行由 resolve 传入的 resolve 回调
+        //         onFulfilled(value)
+        //       }, function (reason) {
+        //         if (done) return
+        //         done = true
+        //         onRejected(reason)
+        //       })
+        //     } catch (ex) {
+        //       if (done) return
+        //       done = true
+        //       onRejected(ex)
+        //     }
+        //   }
+          
+        //   this.done = function (onFulfilled, onRejected) {
+        //     // 保证 done 总是异步执行
+        //     setTimeout(function () {
+        //       handle({
+        //         onFulfilled: onFulfilled,
+        //         onRejected: onRejected
+        //       })
+        //     }, 0)
+        //   }
+        //   this.then = function (onFulfilled, onRejected) {
+        //     const _this = this
+        //     return new Promise(function (resolve, reject) {
+        //       return _this.done(function (result) {
+        //         if (typeof onFulfilled === 'function') {
+        //           try {
+        //             return resolve(onFulfilled(result))
+        //           } catch (ex) {
+        //             return reject(ex)
+        //           }
+        //         } else return resolve(result)
+        //       }, function (error) {
+        //         if (typeof onRejected === 'function') {
+        //           try {
+        //             return resolve(onRejected(error))
+        //           } catch (ex) {
+        //             return reject(ex)
+        //           }
+        //         } else return reject(error)
+        //       })
+        //     })
+        //   }
+          
+        //   doResolve(fn, resolve, reject)
+        // }
 
-        // ensure canvas is resized when window changes size
-        window.addEventListener('resize', function() {
-            app.resizeCanvas();
-        });
+        function Promise(fn) {
+            let state = 'pending';
+            let deferred = null;
+            let value = null;
+            function resolve(newVal) {
+                value = newVal;
+                state = 'resolved';
+                if (deferred) {
+                    handle(deferred);
+                }
+            }
+            function reject(reason) {
+                state = 'rejected';
+                value = reason;
+                if (deferred) {
+                    handle(deferred);
+                }
+            }
+        //     function handle(handler) {
+        //         console.log('do handle')
+        //         if (state === 'pending') {
+        //             console.log('is pending')
+        //             deferred = handler;
+        //             return;
+        //         }
 
-        // create box entity
-        var cube = new pc.Entity('cube');
-        cube.addComponent('model', {
-            type: 'box'
-        });
+        //         let handlerCallback;
 
-        // create camera entity
-        var camera = new pc.Entity('camera');
-        camera.addComponent('camera', {
-            clearColor: new pc.Color(0.1, 0.1, 0.1)
-        });
+        //         if (state === 'resolved') {
+        //             handlerCallback = handler.onResolved;
+        //         } else {
+        //             handlerCallback = handler.onRejected;
+        //         }
 
-        // create directional light entity
-        var light = new pc.Entity('light');
-        light.addComponent('light');
+        //         if (!handlerCallback) {
+        //             if (state === 'resolved') {
+        //                 handler.resolve(value);
+        //             } else {
+        //                 handler.reject(value);
+        //             }
+        //             return;
+        //         }
+        //         setTimeout(() => {
+        //             const ret = handlerCallback(value);
+        //             handler.resolve(ret);
+        //         }, 0);
 
-        // add to hierarchy
-        app.root.addChild(cube);
-        app.root.addChild(camera);
-        app.root.addChild(light);
-
-        // set up initial positions and orientations
-        camera.setPosition(0, 0, 3);
-        light.setEulerAngles(45, 0, 0);
-
-        // register a global update event
-        app.on('update', function (deltaTime) {
-            cube.rotate(10 * deltaTime, 20 * deltaTime, 30 * deltaTime);
-        });
+        //     }
+            function handle(onResolved) {
+                console.log('do handle')
+                if (state === 'pending') {
+                    console.log('is pending')
+                    deferred = onResolved;
+                    return;
+                }
+                onResolved(value);
+            }
+            this.then = function(onResolved, onRejected) {
+                handle(onResolved);
+                // return new Promise((resolve, rejected) => {
+                //     handle({
+                //         onResolved,
+                //         onRejected,
+                //         resolve,
+                //         rejected
+                //     });
+                // });
+            };
+            fn(resolve, reject);
+        }
+        new Promise(function(resolve, reject) {
+          resolve('aaa')
+          // setTimeout(()=>{resolve('aaa')}, 1000)
+        })
+        .then(function(v) {
+          console.log(v);
+        //   return new Promise(function(resolve, reject) {
+        //   setTimeout(()=>{resolve('bbb')}, 1000)
+        // })
+        })
+        // .then(function(v) {
+        //   console.log(v);
+        // })
     </script>
 </body>
 </html>

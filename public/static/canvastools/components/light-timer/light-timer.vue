@@ -43,7 +43,7 @@
       console.log(el)
       this.countdownController = new IOWA.CountdownTimer.Core(new Date(this.date),el),
       this.countdownController.showCurrentTime = true,
-      this.countdownController.setUp(this.showCurrentTime || this.t),
+      // this.countdownController.setUp(this.showCurrentTime || this.t),
       this.countdownController.attachEvents(),
       // this.showCurrentTime && (this.logoController = new IOWA.CountdownTimer.Core(new Date(this.date),el),
       // this.logoController.canvasElement.style.position = "absolute",

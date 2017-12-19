@@ -67,3 +67,23 @@ self.addEventListener('fetch', (e) => {
     );
   }
 });
+
+self.addEventListener('sync', (e) => {
+  self.registration.showNotification("Sync event fired!");
+  e.source.postMessage('Service worker attached');
+});
+
+self.addEventListener('message', (e) => {
+  console.log(e.data);
+  // console.log(e.source)
+  e.source.postMessage('Service worker attached');
+  // self.clients.matchAll().then(function(clientList) {
+  //   clientList.forEach(function(client) {
+  //     client.postMessage('Service worker attached.');
+  //   })
+  // });
+});
+
+self.addEventListener("push", function (e) {
+  console.log('push了一下');
+});
